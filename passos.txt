@@ -1,0 +1,3 @@
+1° Leitura dos dados via linha de comando
+    A. Pegar os dados por meio do argc e argv
+2° Listar os arquivos e pastas do diretorio atual
