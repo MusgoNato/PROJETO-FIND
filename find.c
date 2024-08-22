@@ -25,13 +25,24 @@ find.exe nome_da_pasta nome_do_arquivo
 					*/ 
 
 # include <direct.h>
+# include <stdlib.h>
 # include <stdio.h>
 # include "funcoes.h"
 
+/*Por entrada, as funcoes como opendir ja tratam a entrada, dando para colocar exemplos como:
+    find "C:\\" a b ou find "C:\\ a" a b, nestes casos ele ja trata os espacos em branco pelo terminal*/
+
+
 int main(int argc, char *argv[])
 {
-    DIR *nome_do_diretorio;
-    struct dirent *id_nome_pasta;
+    /*Ponteiro para o fluxo da pasta que sera analisada*/
+    DIR p_fluxo_da_pasta;
+
+    DADO_ENTRADA dado_entrada;
+
+    /*Ponteiro para um dos nomes da pasta*/
+    struct dirent id_nome_pasta;
+
     int retorno;
     argv = argv;
 
@@ -40,10 +51,14 @@ int main(int argc, char *argv[])
     /*Verifica entrada via linha de comando*/
     retorno = Verifica_entrada(argc);
 
-    /*A partir do retorno, caso as entradas sejam validas atribuo minha estrutura*/
+    /*Alocacao dos argumentos que foram passados via linha de comando*/
+    dado_entrada.nome_da_pasta_inicial = argv[PASTA_INICIAL_VARREDURA];
+    dado_entrada.nome_arquivo = argv[NOME_ARQUIVO_BUSCA];
+
+    /*Caso o retorno seja verdadeiro, comeca o programa*/
     if(retorno)
     {
-        
+       Busca_recursiva_diretorios(&p_fluxo_da_pasta, &dado_entrada, &id_nome_pasta);
     }   
 
     return 0;
