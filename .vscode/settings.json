@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "io.h": "c",
+        "crtdefs.h": "c",
+        "direct.h": "c",
+        "stat.h": "c"
+    }
+}

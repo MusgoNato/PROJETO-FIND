@@ -23,6 +23,7 @@ int Verifica_entrada(int argc)
     }
 }
 
+/*Funcao responsavel pela busca dos diretorios*/
 void Busca_recursiva_diretorios(DIR *p_fluxo_da_pasta, DADO_ENTRADA *dado_entrada, struct dirent *id_nome_pasta)
 {
     int saida_varredura = 1;
@@ -45,7 +46,11 @@ void Busca_recursiva_diretorios(DIR *p_fluxo_da_pasta, DADO_ENTRADA *dado_entrad
             /*Se caso for uma pasta, ou seja um subdiretorio dentro da outra pasta que foi passado pelo fluxo, imprimo*/
             if(p_fluxo_da_pasta->dd_dta.attrib & _A_SUBDIR && saida_varredura != 0)
             {
-                printf("%s\n", id_nome_pasta->d_name);
+                /*Comparo se eh diferente das 2 entradas padroes que nao sao necessarias*/
+                if(strcmp(id_nome_pasta->d_name, ".") != 0 && strcmp(id_nome_pasta->d_name, "..") != 0)
+                {
+                    printf("%s\n", id_nome_pasta->d_name);
+                }
                 
             }
         }while(saida_varredura);            
