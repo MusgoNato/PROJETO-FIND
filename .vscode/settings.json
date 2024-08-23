@@ -3,6 +3,9 @@
         "io.h": "c",
         "crtdefs.h": "c",
         "direct.h": "c",
-        "stat.h": "c"
+        "stat.h": "c",
+        "unistd.h": "c",
+        "funcoes.h": "c",
+        "types.h": "c"
     }
 }
