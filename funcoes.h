@@ -7,12 +7,14 @@
 
 typedef struct _entrada_cmd
 {   
-    char *nome_da_pasta_inicial;
+    char *nome_caminho;
     char *nome_arquivo;
+    DIR *p_fluxo_da_pasta;
 }DADO_ENTRADA;
+
 
 /*Funcao responsavel pela verificacao da entrada via linha de comando*/
 int Verifica_entrada(int);
 
 /*Funcao responsavel por comecar a busca recursiva*/
-void Busca_recursiva_diretorios(DIR *, DADO_ENTRADA *, struct dirent *);
+void Busque_diretorios(DADO_ENTRADA  *, struct dirent *);

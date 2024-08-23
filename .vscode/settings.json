@@ -6,6 +6,10 @@
         "stat.h": "c",
         "unistd.h": "c",
         "funcoes.h": "c",
-        "types.h": "c"
+        "types.h": "c",
+        "time.h": "c",
+        "_mingw.h": "c",
+        "_mingw_secapi.h": "c",
+        "_mingw_mac.h": "c"
     }
 }
