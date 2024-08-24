@@ -35,9 +35,6 @@ find.exe nome_da_pasta nome_do_arquivo
 
 int main(int argc, char *argv[])
 {
-    /*Ponteiro para o fluxo da pasta que sera analisada, caso imprima o nome vai sair o diretorio inteiro
-    DIR *p_fluxo_da_pasta;*/
-
     DADO_ENTRADA dado_entrada;
 
     /*Ponteiro para um dos nomes da pasta*/
@@ -55,14 +52,12 @@ int main(int argc, char *argv[])
     dado_entrada.nome_caminho = argv[PASTA_INICIAL_VARREDURA];
     dado_entrada.nome_arquivo = argv[NOME_ARQUIVO_BUSCA];
 
-    /*Abro o fluxo da pasta*/
-    dado_entrada.p_fluxo_da_pasta = opendir(dado_entrada.nome_caminho);
-
     /*Caso o retorno seja verdadeiro, comeca o programa*/
     if(retorno)
     {
-       Busque_diretorios(&dado_entrada, &id_nome_pasta);
-    }   
+        system("cls");
+        Busque_diretorios(&dado_entrada, &id_nome_pasta);
+    }
 
     return 0;
 }
