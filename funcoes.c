@@ -33,15 +33,17 @@ somente consigo imprimi-lo depois de ler a pasta atual, que sera o diretorio com
 void Busque_diretorios(DADO_ENTRADA *dado_entrada, struct dirent *id_nome_pasta)
 {
     char caminho_novo[1024];
+    char path[1024];
 
     /*Abro o fluxo da pasta*/
     dado_entrada->p_fluxo_da_pasta = opendir(dado_entrada->nome_caminho);
-
-    /*printf("Depois da abertura da pasta : %s\n", dado_entrada->nome_caminho);*/
     
     /*Se o caminho existe*/  
     if(dado_entrada->p_fluxo_da_pasta != NULL)
     {
+        /*Copio o caminho inteiro atual onde estou percorrendo, assim posteriormente consigo voltar*/
+        strcpy(path, dado_entrada->p_fluxo_da_pasta->dd_name);
+
         do
         {
             /*Leio o fluxo que foi passado*/
@@ -56,20 +58,22 @@ void Busque_diretorios(DADO_ENTRADA *dado_entrada, struct dirent *id_nome_pasta)
                     /*Se caso for uma pasta, ou seja um subdiretorio dentro da outra pasta que foi passado pelo fluxo, imprimo*/
                     if(dado_entrada->p_fluxo_da_pasta->dd_dta.attrib & _A_SUBDIR)
                     {
-                        /*Concateno minha string auxiliar que sera o novo caminho passado
-                        strcpy(caminho_novo, dado_entrada->p_fluxo_da_pasta->dd_name);
-                        strcat(caminho_novo, id_nome_pasta->d_name);
-                        strcat(caminho_novo, "\\");*/
+                        /*Crio meu caminho novo*/
+                        snprintf(caminho_novo, sizeof(caminho_novo), "%s\\%s", dado_entrada->nome_caminho, id_nome_pasta->d_name);
 
-                        /*strcpy(dado_entrada->nome_caminho, caminho_novo);    */
-
-                        snprintf(caminho_novo, sizeof(caminho_novo), "%s/%s", dado_entrada->nome_caminho, id_nome_pasta->d_name);
-
+                        /*Copio o caminho novo para meu caminho atual sendo percorrido*/
                         strcpy(dado_entrada->nome_caminho, caminho_novo);
 
                         printf("Caminho novo : %s\n", dado_entrada->nome_caminho);
 
+                        /*Chamo a funcao com o caminho modificado*/
                         Busque_diretorios(dado_entrada, id_nome_pasta);
+
+                        /*Apos a saida da recursao devolvo o valor original do path que foi pego antes para o nome do caminho que sera aberto no opendir()*/
+                        strcpy(dado_entrada->nome_caminho, path);
+
+                        printf("%s\n", dado_entrada->nome_caminho);
+
                     }
                     else
                     {
@@ -79,9 +83,15 @@ void Busque_diretorios(DADO_ENTRADA *dado_entrada, struct dirent *id_nome_pasta)
                 }
                 
             }
+            else
+            {
+                break;
+            }
 
-            Sleep(350);
+            Sleep(200);
         }while(id_nome_pasta != NULL); 
+
+        closedir(dado_entrada->p_fluxo_da_pasta);
          
     }
     else

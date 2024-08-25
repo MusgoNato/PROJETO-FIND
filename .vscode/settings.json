@@ -10,6 +10,7 @@
         "time.h": "c",
         "_mingw.h": "c",
         "_mingw_secapi.h": "c",
-        "_mingw_mac.h": "c"
+        "_mingw_mac.h": "c",
+        "dirent.h": "c"
     }
 }
