@@ -1,3 +1,4 @@
+/*Bibliotecas*/
 # include <stdio.h>
 # include <string.h>
 # include <windows.h>
@@ -15,89 +16,84 @@ int Verifica_entrada(int argc)
         }
         else
         {
-            printf("ERRO! DEVEM SER DIGITADOS NO MÍNIMO 2 PARAMETROS!");
+            printf("ERRO! DEVEM SER DIGITADOS NO MINIMO 2 PARAMETROS!");
             return 0;
         }
     }
     else
     {
-        printf("ERRO! DEVEM SER DIGITADOS NO MÁXIMO 3 PARÂMETROS\n");
+        printf("ERRO! DEVEM SER DIGITADOS NO MAXIMO 3 PARÂMETROS\n");
         return 0;
     }
 }
 
-/*Nome do diretorio completo o dado_entrada->p_fluxo_da_pasta me da caso eu abra com o opendir, porem caso eu imprima o dado_entrada->p_fluxo_da_pasta.dd_dir.d_name,
-somente consigo imprimi-lo depois de ler a pasta atual, que sera o diretorio completo, assim eu consigo o nome da pasta atual, que no caso do argumento ser ".", será o mesmo, "."*/
-
 /*Funcao responsavel pela busca dos diretorios*/
-void Busque_diretorios(DADO_ENTRADA *dado_entrada, struct dirent *id_nome_pasta)
+void Busque_diretorios(char *nome_caminho, char *nome_arquivo)
 {
-    char caminho_novo[1024];
-    char path[1024];
+    char novo_caminho[_MAX_ENV];
+    char arquivo_comparado[FILENAME_MAX];
+    struct dirent *id_nome_pasta;
+    DIR *p_fluxo_da_pasta;
 
     /*Abro o fluxo da pasta*/
-    dado_entrada->p_fluxo_da_pasta = opendir(dado_entrada->nome_caminho);
-    
-    /*Se o caminho existe*/  
-    if(dado_entrada->p_fluxo_da_pasta != NULL)
-    {
-        /*Copio o caminho inteiro atual onde estou percorrendo, assim posteriormente consigo voltar*/
-        strcpy(path, dado_entrada->p_fluxo_da_pasta->dd_name);
+    p_fluxo_da_pasta = opendir(nome_caminho);
 
-        do
+    /*Se caso o caminho nao existir, sai da recursao*/  
+    if(p_fluxo_da_pasta == NULL)
+    {
+        printf("PASTA INEXISTENTE!");
+        return;
+    }
+
+    do
+    {
+        /*Leio o fluxo que foi passado*/
+        id_nome_pasta = readdir(p_fluxo_da_pasta);
+
+        /*Verificacao caso atinja toda a varredura*/
+        if(id_nome_pasta != NULL)
         {
-            /*Leio o fluxo que foi passado*/
-            id_nome_pasta = readdir(dado_entrada->p_fluxo_da_pasta);
-
-            /*Verificacao caso atinja toda a varredura*/
-            if(id_nome_pasta != NULL)
+            /*Comparo se eh diferente das 2 entradas padroes que nao sao necessarias*/
+            if(strcmp(id_nome_pasta->d_name, ".") != 0 && strcmp(id_nome_pasta->d_name, "..") != 0)
             {
-                /*Comparo se eh diferente das 2 entradas padroes que nao sao necessarias*/
-                if(strcmp(id_nome_pasta->d_name, ".") != 0 && strcmp(id_nome_pasta->d_name, "..") != 0)
+                /*Se caso for uma pasta, ou seja um subdiretorio dentro da outra pasta que foi passado pelo fluxo, imprimo*/
+                if(p_fluxo_da_pasta->dd_dta.attrib & _A_SUBDIR)
                 {
-                    /*Se caso for uma pasta, ou seja um subdiretorio dentro da outra pasta que foi passado pelo fluxo, imprimo*/
-                    if(dado_entrada->p_fluxo_da_pasta->dd_dta.attrib & _A_SUBDIR)
-                    {
-                        /*Crio meu caminho novo*/
-                        snprintf(caminho_novo, sizeof(caminho_novo), "%s\\%s", dado_entrada->nome_caminho, id_nome_pasta->d_name);
+                    /*Imprime pasta*/
+                    printf("\t%s <DIR>\n", id_nome_pasta->d_name);
+                    
+                    /*Aloco memoria suficiente para meu novo caminho, concatenando-o com a pasta atual encontrada*/
+                    snprintf(novo_caminho, sizeof(novo_caminho), "%s\\%s", nome_caminho, id_nome_pasta->d_name);
 
-                        /*Copio o caminho novo para meu caminho atual sendo percorrido*/
-                        strcpy(dado_entrada->nome_caminho, caminho_novo);
+                    /*Chamada recursiva passado o novo caminho encontrado*/
+                    Busque_diretorios(novo_caminho, nome_arquivo);
 
-                        printf("Caminho novo : %s\n", dado_entrada->nome_caminho);
-
-                        /*Chamo a funcao com o caminho modificado*/
-                        Busque_diretorios(dado_entrada, id_nome_pasta);
-
-                        /*Apos a saida da recursao devolvo o valor original do path que foi pego antes para o nome do caminho que sera aberto no opendir()*/
-                        strcpy(dado_entrada->nome_caminho, path);
-
-                        printf("%s\n", dado_entrada->nome_caminho);
-
-                    }
-                    else
-                    {
-                        /*Imprime arquivo*/
-                        printf("%s\n", id_nome_pasta->d_name);
-                    }
                 }
-                
+                else
+                {
+                    /*Atribuicao do arquivo pego da pasta atual para meu arquivo criado localmente, para fins de comparacao*/
+                    snprintf(arquivo_comparado, sizeof(arquivo_comparado), "%s", id_nome_pasta->d_name);
+
+                    /*printf("Arquivo comparado: %s\n", arquivo_comparado);*/
+
+                    /*Verificacao caso o arquivo seja igual ao passado via linha de comando*
+                    if(!strcmp(nome_arquivo, arquivo_comparado))
+                    {
+                        printf("\t\tArquivo Encontrado Em %s%s\n", p_fluxo_da_pasta->dd_name, p_fluxo_da_pasta->dd_dir.d_name);
+                    }*/
+                    
+                    /*Imprime arquivo*/
+                    printf("!ARQ!: %s\n", id_nome_pasta->d_name);
+                }
             }
-            else
-            {
-                break;
-            }
+        }
+        else
+        {
+            break;
+        }
 
-            Sleep(200);
-        }while(id_nome_pasta != NULL); 
+    }while(id_nome_pasta != NULL); 
 
-        closedir(dado_entrada->p_fluxo_da_pasta);
-         
-    }
-    else
-    {
-        printf("PASTA INEXISTENTE!\n");
-    }
-
-    
+    /*Desaloca recursos da pasta que foi aberta*/         
+    closedir(p_fluxo_da_pasta);
 }

@@ -35,13 +35,9 @@ find.exe nome_da_pasta nome_do_arquivo
 
 int main(int argc, char *argv[])
 {
-    DADO_ENTRADA dado_entrada;
-
-    /*Ponteiro para um dos nomes da pasta*/
-    struct dirent id_nome_pasta;
-
+    char *entrada_pasta_inicial;
+    char *entrada_arquivo_procurado;
     int retorno;
-    argv = argv;
 
     argc++;
 
@@ -49,14 +45,17 @@ int main(int argc, char *argv[])
     retorno = Verifica_entrada(argc);
 
     /*Alocacao dos argumentos que foram passados via linha de comando*/
-    dado_entrada.nome_caminho = argv[PASTA_INICIAL_VARREDURA];
-    dado_entrada.nome_arquivo = argv[NOME_ARQUIVO_BUSCA];
+    entrada_pasta_inicial = argv[PASTA_INICIAL_VARREDURA];
+    entrada_arquivo_procurado = argv[NOME_ARQUIVO_BUSCA];
+    printf("%s", entrada_arquivo_procurado);
 
     /*Caso o retorno seja verdadeiro, comeca o programa*/
     if(retorno)
     {
         system("cls");
-        Busque_diretorios(&dado_entrada, &id_nome_pasta);
+
+        /*Chamda da minha funcao recursiva para busca dos diretorios*/
+        Busque_diretorios(entrada_pasta_inicial, entrada_arquivo_procurado);
     }
 
     return 0;
