@@ -1,8 +1,9 @@
 /*Bibliotecas*/
-# include <stdio.h>
-# include <string.h>
-# include <windows.h>
-# include "funcoes.h"
+# include <stdio.h> /*printf(), snprintf(), FILENAME_MAX*/
+# include <string.h> /*strcmp()*/
+# include <dirent.h> /*closedir(), opendir(), readdir(), DIR, dirent*/
+# include <windows.h> /*_MAX_ENV*/
+# include "funcoes.h" /*Busque_Diretorios(), Verifica_entrada()*/
 
 
 /*Funcao responsavel por fazer as comparacoes da entrada via linha de comando*/
@@ -28,10 +29,10 @@ int Verifica_entrada(int argc)
 }
 
 /*Funcao responsavel pela busca dos diretorios*/
-void Busque_diretorios(char *nome_caminho, char *nome_arquivo)
+void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, char *nome_sequencia)
 {
     char novo_caminho[_MAX_ENV];
-    char arquivo_comparado[FILENAME_MAX];
+    char arquivo_buscado[FILENAME_MAX];
     struct dirent *id_nome_pasta;
     DIR *p_fluxo_da_pasta;
 
@@ -41,7 +42,7 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo)
     /*Se caso o caminho nao existir, sai da recursao*/  
     if(p_fluxo_da_pasta == NULL)
     {
-        printf("PASTA INEXISTENTE!");
+        printf("PASTA INEXISTENTE!\n");
         return;
     }
 
@@ -59,6 +60,8 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo)
                 /*Se caso for uma pasta, ou seja um subdiretorio dentro da outra pasta que foi passado pelo fluxo, imprimo*/
                 if(p_fluxo_da_pasta->dd_dta.attrib & _A_SUBDIR)
                 {
+                    gerais->conta_pastas++;
+
                     /*Imprime pasta*/
                     printf("\t%s <DIR>\n", id_nome_pasta->d_name);
                     
@@ -66,24 +69,33 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo)
                     snprintf(novo_caminho, sizeof(novo_caminho), "%s\\%s", nome_caminho, id_nome_pasta->d_name);
 
                     /*Chamada recursiva passado o novo caminho encontrado*/
-                    Busque_diretorios(novo_caminho, nome_arquivo);
+                    Busque_diretorios(novo_caminho, nome_arquivo, gerais, nome_sequencia);
 
                 }
                 else
                 {
                     /*Atribuicao do arquivo pego da pasta atual para meu arquivo criado localmente, para fins de comparacao*/
-                    snprintf(arquivo_comparado, sizeof(arquivo_comparado), "%s", id_nome_pasta->d_name);
+                    snprintf(arquivo_buscado, sizeof(arquivo_buscado), "%s", id_nome_pasta->d_name);
 
-                    /*printf("Arquivo comparado: %s\n", arquivo_comparado);*/
-
-                    /*Verificacao caso o arquivo seja igual ao passado via linha de comando*
-                    if(!strcmp(nome_arquivo, arquivo_comparado))
-                    {
-                        printf("\t\tArquivo Encontrado Em %s%s\n", p_fluxo_da_pasta->dd_name, p_fluxo_da_pasta->dd_dir.d_name);
-                    }*/
+                    /*Aqui chamo alguma funcao ou faco logica para abrir o arquivo e ver as linhas com a sequencia igual a passado como parametro
+                    CONTINUAR AQUI....
                     
-                    /*Imprime arquivo*/
-                    printf("!ARQ!: %s\n", id_nome_pasta->d_name);
+                    */
+
+                    /*Verificacao caso o arquivo seja igual ao passado via linha de comando*/
+                    if(!strcmp(nome_arquivo, arquivo_buscado))
+                    {
+                        /*Imprime arquivo encontrado*/
+                        printf("\tArquivo Encontrado Em %s%s\n", p_fluxo_da_pasta->dd_name, p_fluxo_da_pasta->dd_dir.d_name);
+                    }
+                    else
+                    {
+                        /*Imprime arquivo*/
+                        printf("%s\n", id_nome_pasta->d_name);
+                    }
+
+                    gerais->conta_arquivos++;
+                    
                 }
             }
         }
