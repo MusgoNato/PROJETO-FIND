@@ -3,6 +3,7 @@
 # include <string.h> /*strcmp()*/
 # include <dirent.h> /*closedir(), opendir(), readdir(), DIR, dirent*/
 # include <windows.h> /*_MAX_ENV*/
+# include "conio_v3.2.4.h"
 # include "funcoes.h" /*Busque_Diretorios(), Verifica_entrada()*/
 
 
@@ -36,6 +37,7 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
     struct dirent *id_nome_pasta;
     DIR *p_fluxo_da_pasta;
 
+
     /*Abro o fluxo da pasta*/
     p_fluxo_da_pasta = opendir(nome_caminho);
 
@@ -61,9 +63,11 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
                 if(p_fluxo_da_pasta->dd_dta.attrib & _A_SUBDIR)
                 {
                     gerais->conta_pastas++;
+                    delline();
+                    gotoxy(gerais->linha_de_impressao.X, gerais->linha_de_impressao.Y);
 
                     /*Imprime pasta*/
-                    printf("\t%s <DIR>\n", id_nome_pasta->d_name);
+                    printf("\tAnalisando caminho: %s\n", p_fluxo_da_pasta->dd_name);
                     
                     /*Aloco memoria suficiente para meu novo caminho, concatenando-o com a pasta atual encontrada*/
                     snprintf(novo_caminho, sizeof(novo_caminho), "%s\\%s", nome_caminho, id_nome_pasta->d_name);
@@ -77,21 +81,17 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
                     /*Atribuicao do arquivo pego da pasta atual para meu arquivo criado localmente, para fins de comparacao*/
                     snprintf(arquivo_buscado, sizeof(arquivo_buscado), "%s", id_nome_pasta->d_name);
 
-                    /*Aqui chamo alguma funcao ou faco logica para abrir o arquivo e ver as linhas com a sequencia igual a passado como parametro
-                    CONTINUAR AQUI....
-                    
-                    */
-
                     /*Verificacao caso o arquivo seja igual ao passado via linha de comando*/
                     if(!strcmp(nome_arquivo, arquivo_buscado))
                     {
                         /*Imprime arquivo encontrado*/
-                        printf("\tArquivo Encontrado Em %s%s\n", p_fluxo_da_pasta->dd_name, p_fluxo_da_pasta->dd_dir.d_name);
+                        gotoxy(gerais->linha_de_impressao.X, gerais->linha_de_impressao.Y++);
+                        printf("\n\tArquivo %s encontrado em -> %s\n", id_nome_pasta->d_name, p_fluxo_da_pasta->dd_name);
                     }
                     else
                     {
-                        /*Imprime arquivo*/
-                        printf("%s\n", id_nome_pasta->d_name);
+                        /*Imprime arquivo
+                        printf("%s\n", id_nome_pasta->d_name);*/
                     }
 
                     gerais->conta_arquivos++;

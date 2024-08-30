@@ -45,7 +45,9 @@ int main(int argc, char *argv[])
     entrada_pasta_inicial = argv[PASTA_INICIAL_VARREDURA];
     entrada_arquivo_procurado = argv[NOME_ARQUIVO_BUSCA];
     entrada_sequencia_procurada = argv[NOME_SEQUENCIA];
-
+    
+    gerais.linha_de_impressao.X = 1;
+    gerais.linha_de_impressao.Y = 1;
     gerais.conta_arquivos = 0;
     gerais.conta_pastas = 0;
 
