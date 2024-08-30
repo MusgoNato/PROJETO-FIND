@@ -36,7 +36,7 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
     char arquivo_buscado[FILENAME_MAX];
     struct dirent *id_nome_pasta;
     DIR *p_fluxo_da_pasta;
-
+    FILE *abre_arquivo;
 
     /*Abro o fluxo da pasta*/
     p_fluxo_da_pasta = opendir(nome_caminho);
@@ -87,11 +87,22 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
                         /*Imprime arquivo encontrado*/
                         gotoxy(gerais->linha_de_impressao.X, gerais->linha_de_impressao.Y++);
                         printf("\n\tArquivo %s encontrado em -> %s\n", id_nome_pasta->d_name, p_fluxo_da_pasta->dd_name);
-                    }
-                    else
-                    {
-                        /*Imprime arquivo
-                        printf("%s\n", id_nome_pasta->d_name);*/
+
+                        /*Abre o arquivo encontrado*/
+                        abre_arquivo = fopen(arquivo_buscado, "r");
+
+                        /*Validacao de abertura*/
+                        if(abre_arquivo != NULL)
+                        {
+                            printf("Deu certo a abertura!\n");
+
+                            /*Chamada da minha funcao para realizar a varredura do meu arquivo
+                            Varre_arquivo(nome_sequencia, abre_arquivo);*/
+
+                            fclose(abre_arquivo);
+                        }
+                        
+   
                     }
 
                     gerais->conta_arquivos++;
@@ -109,3 +120,26 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
     /*Desaloca recursos da pasta que foi aberta*/         
     closedir(p_fluxo_da_pasta);
 }
+
+
+/*Funcao respoansavel por varrer o arquivo aberto pela funcao recursiva
+void Varre_arquivo(char *sequencia_buscada, FILE *abre_arquivo)
+{
+    char linha[TAM_LINHA];
+
+    do
+    {       
+        fgets(linha, TAM_LINHA, abre_arquivo);
+
+        if(linha == NULL)
+        {
+            break;
+        }
+        else
+        {
+            Procuro a string a ser buscada dentro do arquivo
+            printf("%s", sequencia_buscada);
+        }
+
+    }while(linha != NULL);
+}*/

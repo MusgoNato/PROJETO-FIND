@@ -31,3 +31,6 @@ int Verifica_entrada(int);
 
 /*Funcao responsavel por comecar a busca recursiva*/
 void Busque_diretorios(char  *, char *, GERAIS *, char *);
+
+/*Funcao responsavel por varrer o arquivo aberto
+void Varre_arquivo(char *, FILE *);*/
