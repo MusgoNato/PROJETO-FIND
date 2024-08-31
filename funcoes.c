@@ -34,9 +34,10 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
 {
     char novo_caminho[_MAX_ENV];
     char arquivo_buscado[FILENAME_MAX];
+    char caminho_completo[_MAX_ENV];
+    char *caminho_modificado;
     struct dirent *id_nome_pasta;
     DIR *p_fluxo_da_pasta;
-    FILE *abre_arquivo;
 
     /*Abro o fluxo da pasta*/
     p_fluxo_da_pasta = opendir(nome_caminho);
@@ -64,10 +65,10 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
                 {
                     gerais->conta_pastas++;
                     delline();
-                    gotoxy(gerais->linha_de_impressao.X, gerais->linha_de_impressao.Y);
 
                     /*Imprime pasta*/
-                    printf("\tAnalisando caminho: %s\n", p_fluxo_da_pasta->dd_name);
+                    gotoxy(gerais->linha_de_impressao.X, gerais->linha_de_impressao.Y);
+                    printf("\tAnalisando caminho: %s", p_fluxo_da_pasta->dd_name);
                     
                     /*Aloco memoria suficiente para meu novo caminho, concatenando-o com a pasta atual encontrada*/
                     snprintf(novo_caminho, sizeof(novo_caminho), "%s\\%s", nome_caminho, id_nome_pasta->d_name);
@@ -86,23 +87,21 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
                     {
                         /*Imprime arquivo encontrado*/
                         gotoxy(gerais->linha_de_impressao.X, gerais->linha_de_impressao.Y++);
-                        printf("\n\tArquivo %s encontrado em -> %s\n", id_nome_pasta->d_name, p_fluxo_da_pasta->dd_name);
+                        printf("\tArquivo %s encontrado em -> %s", id_nome_pasta->d_name, p_fluxo_da_pasta->dd_name);
 
-                        /*Abre o arquivo encontrado*/
-                        abre_arquivo = fopen(arquivo_buscado, "r");
+                        snprintf(caminho_completo, sizeof(caminho_completo), "%s", p_fluxo_da_pasta->dd_name);
 
-                        /*Validacao de abertura*/
-                        if(abre_arquivo != NULL)
-                        {
-                            printf("Deu certo a abertura!\n");
+                        /*Chama a funcao responsavel por retirar os asteriscos ao final de cada caminho, assim posso passar para a funcao fopen sem
+                        problemas*/
+                        caminho_modificado = Remove_asterisco(caminho_completo);
 
-                            /*Chamada da minha funcao para realizar a varredura do meu arquivo
-                            Varre_arquivo(nome_sequencia, abre_arquivo);*/
+                        /*Concateno com o nome do arquivo atual*/
+                        strcat(caminho_completo, id_nome_pasta->d_name);
 
-                            fclose(abre_arquivo);
-                        }
-                        
-   
+                        /*Chama a funcao responsavel por abrir meu arquivo*/
+                        Varre_arquivo(nome_sequencia, caminho_modificado, gerais);
+
+
                     }
 
                     gerais->conta_arquivos++;
@@ -121,25 +120,66 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
     closedir(p_fluxo_da_pasta);
 }
 
+/*Funcao responsavel por retirar os asteriscos do caminho completo atual sendo percorrido*/
+char * Remove_asterisco(char *caminho)
+{
+    int i;
+    int tam = 0;
+    char aux[_MAX_ENV];
 
-/*Funcao respoansavel por varrer o arquivo aberto pela funcao recursiva
-void Varre_arquivo(char *sequencia_buscada, FILE *abre_arquivo)
+    tam = strlen(caminho);
+    
+    for(i = 0; i < tam - 1; i++)
+    {
+        aux[i] = caminho[i];
+    }
+
+    strcpy(caminho, aux);
+
+    return caminho;
+}
+
+
+
+/*Funcao respoansavel por varrer o arquivo aberto pela funcao recursiva*/
+void Varre_arquivo(char *sequencia_buscada, char *caminho_modificado, GERAIS *gerais)
 {
     char linha[TAM_LINHA];
+    char *retorno;
+    int i = 0;
+    FILE *abre_arquivo;
 
-    do
-    {       
-        fgets(linha, TAM_LINHA, abre_arquivo);
+    sequencia_buscada = sequencia_buscada;
 
-        if(linha == NULL)
-        {
-            break;
-        }
-        else
-        {
-            Procuro a string a ser buscada dentro do arquivo
-            printf("%s", sequencia_buscada);
-        }
+    abre_arquivo = fopen(caminho_modificado, "r");
 
-    }while(linha != NULL);
-}*/
+    if(abre_arquivo != NULL)
+    {
+        do
+        {       
+            retorno = fgets(linha, TAM_LINHA, abre_arquivo);
+
+            if(retorno == NULL)
+            {
+                break;
+            }
+            else
+            {
+                /*PEGAR CADA LINHA E COMPARAR COM A SEQUENCIA BUSCADA, CONTINUAR AQUI...*/
+                /*Imprime linha do arquivo*/
+                i++;
+                gotoxy(gerais->linha_de_impressao.X, gerais->linha_de_impressao.Y++);
+                printf("Linha %d -> %s", i, linha);
+            }
+
+        }while(retorno != NULL);
+
+        fclose(abre_arquivo);
+    }
+    else
+    {
+        printf("Deu errado!");
+    }
+
+    
+}

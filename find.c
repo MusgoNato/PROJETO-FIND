@@ -7,7 +7,7 @@ Data da última modificação: 29/08/2024*/
 
 
 /*Instruções para compilação
-gcc find.c -o find.exe funcoes.c -Wall -pedantic -Wextra -Werror
+gcc find.c -o find.exe funcoes.c conio_v3.2.4.c console_v1.5.5.c -Wall -pedantic -Wextra -Werror
 
 Instruções para execução
 
@@ -24,8 +24,9 @@ find PASTA_INICIAL ARQUIVO_A_SER_PROCURADO SEQUENCIA_PROCURADA
 Ex: find "C:\Program Files" abc.txt Ola 
 */
 
-# include <stdlib.h> /*system()*/
+# include <stdlib.h>
 # include <stdio.h> /*printf()*/
+# include "conio_v3.2.4.h" /*clrscr()*/
 # include "funcoes.h" /*Busque_diretorios(), Verifica_entrada()*/
 
 int main(int argc, char *argv[])
@@ -54,12 +55,14 @@ int main(int argc, char *argv[])
     /*Caso o retorno seja verdadeiro, comeca o programa*/
     if(retorno)
     {
-        system("cls");
+        /*Limpa tela*/
+        clrscr();
 
         /*Chamda da minha funcao recursiva para busca dos diretorios*/
         Busque_diretorios(entrada_pasta_inicial, entrada_arquivo_procurado, &gerais, entrada_sequencia_procurada);
-        
+
         /*Impressao dos dados analisados*/
+        gotoxy(20, 20);
         printf("Foram analisadas %d pastas e %d arquivos!\n", gerais.conta_pastas, gerais.conta_arquivos);
     }
 
