@@ -60,15 +60,16 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
             /*Comparo se eh diferente das 2 entradas padroes que nao sao necessarias*/
             if(strcmp(id_nome_pasta->d_name, ".") != 0 && strcmp(id_nome_pasta->d_name, "..") != 0)
             {
+                /*Imprime pastas*/
+                gotoxy(gerais->linha_de_impressao.X, gerais->linha_de_impressao.Y);
+                clreol();
+                printf("Analisando caminho: %s\n", p_fluxo_da_pasta->dd_name);
+
+                
                 /*Se caso for uma pasta, ou seja um subdiretorio dentro da outra pasta que foi passado pelo fluxo, imprimo*/
                 if(p_fluxo_da_pasta->dd_dta.attrib & _A_SUBDIR)
                 {
                     gerais->conta_pastas++;
-                    delline();
-
-                    /*Imprime pasta*/
-                    gotoxy(gerais->linha_de_impressao.X, gerais->linha_de_impressao.Y);
-                    printf("\tAnalisando caminho: %s", p_fluxo_da_pasta->dd_name);
                     
                     /*Aloco memoria suficiente para meu novo caminho, concatenando-o com a pasta atual encontrada*/
                     snprintf(novo_caminho, sizeof(novo_caminho), "%s\\%s", nome_caminho, id_nome_pasta->d_name);
@@ -78,7 +79,7 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
 
                 }
                 else
-                {
+                {   
                     /*Atribuicao do arquivo pego da pasta atual para meu arquivo criado localmente, para fins de comparacao*/
                     snprintf(arquivo_buscado, sizeof(arquivo_buscado), "%s", id_nome_pasta->d_name);
 
@@ -87,7 +88,7 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
                     {
                         /*Imprime arquivo encontrado*/
                         gotoxy(gerais->linha_de_impressao.X, gerais->linha_de_impressao.Y++);
-                        printf("\tArquivo %s encontrado em -> %s", id_nome_pasta->d_name, p_fluxo_da_pasta->dd_name);
+                        printf("Arquivo %s encontrado em -> %s\n", id_nome_pasta->d_name, p_fluxo_da_pasta->dd_name);
 
                         snprintf(caminho_completo, sizeof(caminho_completo), "%s", p_fluxo_da_pasta->dd_name);
 

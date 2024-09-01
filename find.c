@@ -26,7 +26,7 @@ Ex: find "C:\Program Files" abc.txt Ola
 
 # include <stdlib.h>
 # include <stdio.h> /*printf()*/
-# include "conio_v3.2.4.h" /*clrscr()*/
+# include "conio_v3.2.4.h" /*clrscr(), gotoxy()*/
 # include "funcoes.h" /*Busque_diretorios(), Verifica_entrada()*/
 
 int main(int argc, char *argv[])
