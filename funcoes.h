@@ -1,6 +1,6 @@
 /*Bibliotecas*/
 # include <dirent.h> /*DIR*/
-# include "conio_v3.2.4.h"
+# include "conio_v3.2.4.h" /*COORD*/
 # include "console_v1.5.5.h"
 
 /*Definicoes de constantes*/

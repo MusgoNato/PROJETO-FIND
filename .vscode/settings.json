@@ -12,6 +12,8 @@
         "_mingw_secapi.h": "c",
         "_mingw_mac.h": "c",
         "dirent.h": "c",
-        "conio_v3.2.4.h": "c"
+        "conio_v3.2.4.h": "c",
+        "console_v1.5.5.h": "c",
+        "windows.h": "c"
     }
 }

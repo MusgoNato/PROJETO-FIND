@@ -1,32 +1,10 @@
 /*Bibliotecas*/
-# include <stdio.h> /*printf(), snprintf(), FILENAME_MAX*/
-# include <string.h> /*strcmp()*/
+# include <stdio.h> /*fclose(), fgets(), fopen(), printf(), snprintf(), FILENAME_MAX, NULL*/
+# include <stdlib.h> /*_MAX_ENV*/
+# include <string.h> /*strcat(), strcmp(), strcpy(), strlen(), strstr()*/
 # include <dirent.h> /*closedir(), opendir(), readdir(), DIR, dirent*/
-# include <windows.h> /*_MAX_ENV*/
-# include "conio_v3.2.4.h" /**/
-# include "funcoes.h" /*Busque_Diretorios(), Verifica_entrada()*/
-
-/*Funcao responsavel por fazer as comparacoes da entrada via linha de comando*/
-int Verifica_entrada(int argc)
-{
-    if(argc <= MAX_ARGUMENTOS)
-    {
-        if(argc >= MIN_ARGUMENTOS)
-        {
-            return 1;
-        }
-        else
-        {
-            printf("ERRO! DEVEM SER DIGITADOS NO MINIMO 2 PARAMETROS!");
-            return 0;
-        }
-    }
-    else
-    {
-        printf("ERRO! DEVEM SER DIGITADOS NO MAXIMO 3 PARÂMETROS\n");
-        return 0;
-    }
-}
+# include "conio_v3.2.4.h" /*clreol,gotoxy()*/
+# include "funcoes.h" /*Busque_Diretorios(), Remove_asterisco(), Varre_arquivo(), Verifica_entrada() */
 
 /*Funcao responsavel pela busca dos diretorios*/
 void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, char *nome_sequencia)
@@ -187,4 +165,26 @@ void Varre_arquivo(char *sequencia_buscada, char *caminho_modificado, GERAIS *ge
         printf("Deu errado!");
     }
     
+}
+
+/*Funcao responsavel por fazer as comparacoes da entrada via linha de comando*/
+int Verifica_entrada(int argc)
+{
+    if(argc <= MAX_ARGUMENTOS)
+    {
+        if(argc >= MIN_ARGUMENTOS)
+        {
+            return 1;
+        }
+        else
+        {
+            printf("ERRO! DEVEM SER DIGITADOS NO MINIMO 2 PARAMETROS!");
+            return 0;
+        }
+    }
+    else
+    {
+        printf("ERRO! DEVEM SER DIGITADOS NO MAXIMO 3 PARÂMETROS\n");
+        return 0;
+    }
 }

@@ -3,7 +3,7 @@ Descrição: O programa será capaz de buscar um arquivo passado como argumento 
 o usuario podera procurar tambem por uma sequencia de caracteres dentro dos arquivos, onde o programa mostrara em quais linhas foram encontradas essa respectiva sequencia.
 Programador: Hugo Josué Lema Das Neves 
 RGM: 47159 
-Data da última modificação: 29/08/2024*/
+Data da última modificação: 05/09/2024*/
 
 
 /*Instruções para compilação
