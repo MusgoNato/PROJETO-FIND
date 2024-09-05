@@ -3,9 +3,8 @@
 # include <string.h> /*strcmp()*/
 # include <dirent.h> /*closedir(), opendir(), readdir(), DIR, dirent*/
 # include <windows.h> /*_MAX_ENV*/
-# include "conio_v3.2.4.h"
+# include "conio_v3.2.4.h" /**/
 # include "funcoes.h" /*Busque_Diretorios(), Verifica_entrada()*/
-
 
 /*Funcao responsavel por fazer as comparacoes da entrada via linha de comando*/
 int Verifica_entrada(int argc)
@@ -65,7 +64,6 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
                 clreol();
                 printf("Analisando caminho: %s\n", p_fluxo_da_pasta->dd_name);
 
-                
                 /*Se caso for uma pasta, ou seja um subdiretorio dentro da outra pasta que foi passado pelo fluxo, imprimo*/
                 if(p_fluxo_da_pasta->dd_dta.attrib & _A_SUBDIR)
                 {
@@ -97,11 +95,15 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
                         caminho_modificado = Remove_asterisco(caminho_completo);
 
                         /*Concateno com o nome do arquivo atual*/
+                        strcat(caminho_completo, "\\");
                         strcat(caminho_completo, id_nome_pasta->d_name);
 
-                        /*Chama a funcao responsavel por abrir meu arquivo*/
-                        Varre_arquivo(nome_sequencia, caminho_modificado, gerais);
-
+                        if(nome_sequencia != NULL)
+                        {
+                            /*Chama a funcao responsavel por abrir meu arquivo*/
+                            Varre_arquivo(nome_sequencia, caminho_modificado, gerais);
+                        }
+                        
 
                     }
 
@@ -140,17 +142,14 @@ char * Remove_asterisco(char *caminho)
     return caminho;
 }
 
-
-
 /*Funcao respoansavel por varrer o arquivo aberto pela funcao recursiva*/
 void Varre_arquivo(char *sequencia_buscada, char *caminho_modificado, GERAIS *gerais)
 {
     char linha[TAM_LINHA];
     char *retorno;
+    char *substring_encontrada;
     int i = 0;
     FILE *abre_arquivo;
-
-    sequencia_buscada = sequencia_buscada;
 
     abre_arquivo = fopen(caminho_modificado, "r");
 
@@ -166,11 +165,17 @@ void Varre_arquivo(char *sequencia_buscada, char *caminho_modificado, GERAIS *ge
             }
             else
             {
-                /*PEGAR CADA LINHA E COMPARAR COM A SEQUENCIA BUSCADA, CONTINUAR AQUI...*/
-                /*Imprime linha do arquivo*/
                 i++;
-                gotoxy(gerais->linha_de_impressao.X, gerais->linha_de_impressao.Y++);
-                printf("Linha %d -> %s", i, linha);
+                
+                /*Busco minha substring atraves da funcao strstr, retornando a primeira ocorrencia da substring*/
+                substring_encontrada = strstr(linha, sequencia_buscada);
+                
+                if(substring_encontrada != NULL)
+                {
+                    /*Imprime linha do arquivo*/
+                    gotoxy(gerais->linha_de_impressao.X, gerais->linha_de_impressao.Y++);
+                    printf("Linha %d -> %s", i, linha);
+                } 
             }
 
         }while(retorno != NULL);
@@ -181,6 +186,5 @@ void Varre_arquivo(char *sequencia_buscada, char *caminho_modificado, GERAIS *ge
     {
         printf("Deu errado!");
     }
-
     
 }

@@ -62,8 +62,8 @@ int main(int argc, char *argv[])
         Busque_diretorios(entrada_pasta_inicial, entrada_arquivo_procurado, &gerais, entrada_sequencia_procurada);
 
         /*Impressao dos dados analisados*/
-        gotoxy(20, 20);
-        printf("Foram analisadas %d pastas e %d arquivos!\n", gerais.conta_pastas, gerais.conta_arquivos);
+        gotoxy(gerais.linha_de_impressao.X, gerais.linha_de_impressao.Y + 1);
+        printf("Fim da analise\nForam analisadas %d pastas e %d arquivos!\n", gerais.conta_pastas, gerais.conta_arquivos);
     }
 
     return 0;

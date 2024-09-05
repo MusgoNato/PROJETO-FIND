@@ -9,7 +9,7 @@
 # define PASTA_INICIAL_VARREDURA 1
 # define NOME_ARQUIVO_BUSCA 2
 # define NOME_SEQUENCIA 3
-# define TAM_LINHA 1024
+# define TAM_LINHA 1024 
 
 /*Registros*/
 typedef struct _entrada_cmd
@@ -23,6 +23,7 @@ typedef struct _cont
 {
     int conta_pastas;
     int conta_arquivos;
+    int controle_sequencia;
     COORD linha_de_impressao;
 }GERAIS;
 
