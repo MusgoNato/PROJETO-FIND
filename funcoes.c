@@ -2,8 +2,8 @@
 # include <stdio.h> /*fclose(), fgets(), fopen(), printf(), snprintf(), FILENAME_MAX, NULL*/
 # include <stdlib.h> /*_MAX_ENV*/
 # include <string.h> /*strcat(), strcmp(), strcpy(), strlen(), strstr()*/
-# include <dirent.h> /*closedir(), opendir(), readdir(), DIR, dirent*/
-# include "conio_v3.2.4.h" /*clreol,gotoxy()*/
+# include <dirent.h> /*closedir(), opendir(), readdir(), DIR, struct dirent*/
+# include "conio_v3.2.4.h" /*clreol(), gotoxy()*/
 # include "funcoes.h" /*Busque_Diretorios(), Remove_asterisco(), Varre_arquivo(), Verifica_entrada() */
 
 /*Funcao responsavel pela busca dos diretorios*/
@@ -65,7 +65,7 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
                         /*Imprime arquivo encontrado*/
                         gotoxy(gerais->linha_de_impressao.X, gerais->linha_de_impressao.Y++);
                         printf("Arquivo %s encontrado em -> %s\n", id_nome_pasta->d_name, p_fluxo_da_pasta->dd_name);
-
+                        
                         snprintf(caminho_completo, sizeof(caminho_completo), "%s", p_fluxo_da_pasta->dd_name);
 
                         /*Chama a funcao responsavel por retirar os asteriscos ao final de cada caminho, assim posso passar para a funcao fopen sem
@@ -76,12 +76,12 @@ void Busque_diretorios(char *nome_caminho, char *nome_arquivo, GERAIS *gerais, c
                         strcat(caminho_completo, "\\");
                         strcat(caminho_completo, id_nome_pasta->d_name);
 
+                        /*Verificacao caso exista sequencia a ser buscada*/
                         if(nome_sequencia != NULL)
                         {
                             /*Chama a funcao responsavel por abrir meu arquivo*/
                             Varre_arquivo(nome_sequencia, caminho_modificado, gerais);
                         }
-                        
 
                     }
 
@@ -110,11 +110,13 @@ char * Remove_asterisco(char *caminho)
 
     tam = strlen(caminho);
     
+    /*Coloca-se cada letra dentro do vetor auxiliar, exceto o "*", por isso tam - 1*/
     for(i = 0; i < tam - 1; i++)
     {
         aux[i] = caminho[i];
     }
 
+    /*Copia-se o caminho modificado (aux) para o caminho original*/
     strcpy(caminho, aux);
 
     return caminho;
@@ -131,10 +133,12 @@ void Varre_arquivo(char *sequencia_buscada, char *caminho_modificado, GERAIS *ge
 
     abre_arquivo = fopen(caminho_modificado, "r");
 
+    /*Verifica caso o arquivo exista*/
     if(abre_arquivo != NULL)
     {
         do
         {       
+            /*Pega-se cada linha do arquivo, armazenando em um vetor de caracteres*/
             retorno = fgets(linha, TAM_LINHA, abre_arquivo);
 
             if(retorno == NULL)
@@ -145,9 +149,10 @@ void Varre_arquivo(char *sequencia_buscada, char *caminho_modificado, GERAIS *ge
             {
                 i++;
                 
-                /*Busco minha substring atraves da funcao strstr, retornando a primeira ocorrencia da substring*/
+                /*Busco minha substring atraves da funcao strstr, retornando a primeira ocorrencia da substring dentro da linha lida do arquivo encontrado*/
                 substring_encontrada = strstr(linha, sequencia_buscada);
                 
+                /*Impressao da linha do arquivo somente caso seja encontrado a sequencia*/
                 if(substring_encontrada != NULL)
                 {
                     /*Imprime linha do arquivo*/
@@ -159,10 +164,6 @@ void Varre_arquivo(char *sequencia_buscada, char *caminho_modificado, GERAIS *ge
         }while(retorno != NULL);
 
         fclose(abre_arquivo);
-    }
-    else
-    {
-        printf("Deu errado!");
     }
     
 }

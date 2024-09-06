@@ -11,7 +11,7 @@ gcc find.c -o find.exe funcoes.c conio_v3.2.4.c console_v1.5.5.c -Wall -pedantic
 
 Instruções para execução
 
-1° Caso sua pasta possua espacos em branco, insira o nome entre aspas duplas. Caso contrario somente inserir o nome da pasta.
+1° Caso sua pasta possua espacos em branco ou seja um caminho direto, insira o nome entre aspas duplas. Caso contrario somente inserir o nome da pasta.
 
 Ex: find "MINHA PASTA" abc.txt
 
@@ -24,10 +24,9 @@ find PASTA_INICIAL ARQUIVO_A_SER_PROCURADO SEQUENCIA_PROCURADA
 Ex: find "C:\Program Files" abc.txt Ola 
 */
 
-# include <stdlib.h>
 # include <stdio.h> /*printf()*/
 # include "conio_v3.2.4.h" /*clrscr(), gotoxy()*/
-# include "funcoes.h" /*Busque_diretorios(), Verifica_entrada()*/
+# include "funcoes.h" /*Busque_diretorios(), Verifica_entrada(), NOME_ARQUIVO_BUSCA, NOME_SEQUENCIA, PASTA_INICIAL_VARREDURA, */
 
 int main(int argc, char *argv[])
 {
@@ -58,7 +57,7 @@ int main(int argc, char *argv[])
         /*Limpa tela*/
         clrscr();
 
-        /*Chamda da minha funcao recursiva para busca dos diretorios*/
+        /*Chamada da minha funcao recursiva para busca dos diretorios*/
         Busque_diretorios(entrada_pasta_inicial, entrada_arquivo_procurado, &gerais, entrada_sequencia_procurada);
 
         /*Impressao dos dados analisados*/
