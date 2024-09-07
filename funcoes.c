@@ -1,8 +1,8 @@
 /*Bibliotecas*/
-# include <stdio.h> /*fclose(), fgets(), fopen(), printf(), snprintf(), FILENAME_MAX, NULL*/
+# include <dirent.h> /*closedir(), opendir(), readdir(), DIR, struct dirent*/
+# include <stdio.h> /*fclose(), fgets(), fopen(), printf(), snprintf(),  FILENAME_MAX, NULL*/
 # include <stdlib.h> /*_MAX_ENV*/
 # include <string.h> /*strcat(), strcmp(), strcpy(), strlen(), strstr()*/
-# include <dirent.h> /*closedir(), opendir(), readdir(), DIR, struct dirent*/
 # include "conio_v3.2.4.h" /*clreol(), gotoxy()*/
 # include "funcoes.h" /*Busque_Diretorios(), Remove_asterisco(), Varre_arquivo(), Verifica_entrada() */
 

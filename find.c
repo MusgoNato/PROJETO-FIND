@@ -3,10 +3,11 @@ Descrição: O programa será capaz de buscar um arquivo passado como argumento 
 o usuario podera procurar tambem por uma sequencia de caracteres dentro dos arquivos, onde o programa mostrara em quais linhas foram encontradas essa respectiva sequencia.
 Programador: Hugo Josué Lema Das Neves 
 RGM: 47159 
-Data da última modificação: 05/09/2024*/
+Data da última modificação: 06/09/2024*/
 
 
 /*Instruções para compilação
+
 gcc find.c -o find.exe funcoes.c conio_v3.2.4.c console_v1.5.5.c -Wall -pedantic -Wextra -Werror
 
 Instruções para execução
@@ -15,9 +16,8 @@ Instruções para execução
 
 Ex: find "MINHA PASTA" abc.txt
 
-*/
 
-/*Linha de execucao
+Linha de execucao
 
 find PASTA_INICIAL ARQUIVO_A_SER_PROCURADO SEQUENCIA_PROCURADA
 
@@ -26,7 +26,7 @@ Ex: find "C:\Program Files" abc.txt Ola
 
 # include <stdio.h> /*printf()*/
 # include "conio_v3.2.4.h" /*clrscr(), gotoxy()*/
-# include "funcoes.h" /*Busque_diretorios(), Verifica_entrada(), NOME_ARQUIVO_BUSCA, NOME_SEQUENCIA, PASTA_INICIAL_VARREDURA, */
+# include "funcoes.h" /*Busque_diretorios(), Verifica_entrada(), NOME_ARQUIVO_BUSCA, NOME_SEQUENCIA, PASTA_INICIAL_VARREDURA*/
 
 int main(int argc, char *argv[])
 {

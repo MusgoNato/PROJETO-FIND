@@ -1,7 +1,6 @@
 /*Bibliotecas*/
 # include <dirent.h> /*DIR*/
-# include "conio_v3.2.4.h" /*COORD*/
-# include "console_v1.5.5.h"
+# include "console_v1.5.5.h" /*COORD*/
 
 /*Definicoes de constantes*/
 # define MAX_ARGUMENTOS 5
