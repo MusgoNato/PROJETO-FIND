@@ -30,21 +30,6 @@ typedef struct _cont
     COORD linha_de_impressao;
 }GERAIS;
 
-
-/*Funcao responsavel pela verificacao da entrada via linha de comando
-
-Explicacao:
-Caso o usuario insira mais de 3 parametros, o programa encerrara apresentando uma mensagem de erro pelo ocorrido,
-o mesmo acontecendo para caso ele insira menos de 2 argumentos.
-
-Parametros:
-1 - int : Contadora de parametros passados via linha de comando.
-
-Retorno:
-int : Caso a quantidade passada seja dentro do intervalo possivel retorna 1 ao programa, caso contrario 0. 
-*/
-int Verifica_entrada(int);
-
 /*Funcao responsavel por comecar a busca recursiva
 
 Explicacao:
@@ -63,6 +48,21 @@ Nenhum
 */
 void Busque_diretorios(char  *, char *, GERAIS *, char *);
 
+/*Funcao responsavel por remover o asterisco ao final de cada caminho percorrido pela funcao recursiva
+
+Explicacao:
+A funcao remove o asterisco de cada caminho, isto deve acontecer pois caso o caminho seja passado como parametro na funcao fopen() a mesma nao 
+encontrara o arquivo desejado para abertura. O caminho retornado pela funcao readdir() vem como padrao um "*" ao final do caminho, sendo retirado
+pela funcao Remove_asterisco() para encontrar o arquivo desejado com a funcao fopen().
+
+Parametros:
+1 - char * : Caminho do diretorio que esta sendo percorrido no programa
+
+Retorno:
+char * : Caminho modificado, retirando o "*" ao final do caminho original
+*/
+char * Remove_asterisco(char *);
+
 /*Funcao responsavel por varrer o arquivo aberto
 
 Explicacao:
@@ -80,17 +80,16 @@ Nenhum
 */
 void Varre_arquivo(char *, char *, GERAIS *);
 
-/*Funcao responsavel por remover o asterisco ao final de cada caminho percorrido pela funcao recursiva
+/*Funcao responsavel pela verificacao da entrada via linha de comando
 
 Explicacao:
-A funcao remove o asterisco de cada caminho, isto deve acontecer pois caso o caminho seja passado como parametro na funcao fopen() a mesma nao 
-encontrara o arquivo desejado para abertura. O caminho retornado pela funcao readdir() vem como padrao um "*" ao final do caminho, sendo retirado
-pela funcao Remove_asterisco() para encontrar o arquivo desejado com a funcao fopen().
+Caso o usuario insira mais de 3 parametros, o programa encerrara apresentando uma mensagem de erro pelo ocorrido,
+o mesmo acontecendo para caso ele insira menos de 2 argumentos.
 
 Parametros:
-1 - char * : Caminho do diretorio que esta sendo percorrido no programa
+1 - int : Contadora de parametros passados via linha de comando.
 
 Retorno:
-char * : Caminho modificado, retirando o "*" ao final do caminho original
+int : Caso a quantidade passada seja dentro do intervalo possivel retorna 1 ao programa, caso contrario 0. 
 */
-char * Remove_asterisco(char *);
+int Verifica_entrada(int);
