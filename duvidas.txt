@@ -1,1 +1,0 @@
-1a Precisa contar a pasta inicial da varredura para impressão da somatoria dos dados analisados ao final do programa?
