@@ -8,6 +8,7 @@ Data da última modificação: 06/09/2024*/
 
 /*Instruções para compilação
 
+Copie e cole no terminal a linha abaixo
 gcc find.c -o find.exe funcoes.c conio_v3.2.4.c console_v1.5.5.c -Wall -pedantic -Wextra -Werror
 
 Instruções para execução
@@ -21,7 +22,8 @@ Linha de execucao
 
 find PASTA_INICIAL ARQUIVO_A_SER_PROCURADO SEQUENCIA_PROCURADA
 
-Ex: find "C:\Program Files" abc.txt Ola 
+Copie e cole apos terminado de executar a compilacao a linha abaixo como exemplo
+find "C:\Program Files" abc.txt Ola 
 */
 
 # include <stdio.h> /*printf()*/
