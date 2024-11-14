@@ -6,7 +6,7 @@
 
 <img src="/video-programa/video.gif" alt="Programa Rodando">
 
-> Projeto de buscas recursivas em pastas e subpastas. O programa percorre todas as pastas dado um endereço inicial para varredura. O programa ainda permite a de sequências de caracteres dentro de um arquivo, imprimindo em que linha foi encontrada a sequência.
+> Projeto de buscas recursivas em pastas e subpastas. O programa percorre todas as pastas dado um endereço inicial para varredura. O programa ainda permite a busca de sequências de caracteres dentro de um arquivo, imprimindo em que linha foi encontrada a sequência.
 
 ## 💻 Pré-requisitos
 
