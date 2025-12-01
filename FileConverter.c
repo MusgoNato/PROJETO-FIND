@@ -1,16 +1,3 @@
-
-/*
-******* Seu nome, o que faz o programa, etc.. *******
-
-Compilacao:
-gcc FileConverter.c -o FileConverter.exe funcoes.c console_v1.5.5.c conio_v3.2.4.c -Wall -pedantic -Werror -Wextra
-
-Execucao:
-1 : FileConverter
-2 : FIleConverter /ALL
-3 : FileConverter /ALL /SUB-DIR-INCLUDED
-*/
-
 # include <stdio.h>      
 # include <stdlib.h>    
 # include <string.h>     
