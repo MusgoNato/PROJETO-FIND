@@ -6,51 +6,51 @@
 
 <img src="/video-programa/video.gif" alt="Programa Rodando">
 
-> Projeto de buscas recursivas em pastas e subpastas. O programa percorre todas as pastas dado um endereÃ§o inicial para varredura. O programa ainda permite a busca de sequÃªncias de caracteres dentro de um arquivo, imprimindo em que linha foi encontrada a sequÃªncia.
+> Projeto de buscas recursivas em pastas e subpastas. O programa percorre todas as pastas dado um endereÇõo inicial para varredura. O programa ainda permite a busca de sequÇ¦ncias de caracteres dentro de um arquivo, imprimindo em que linha foi encontrada a sequÇ¦ncia.
 
-## ğŸ’» PrÃ©-requisitos
+## ĞY'¯ PrÇ¸-requisitos
 
-Antes de comeÃ§ar, verifique se vocÃª atendeu aos seguintes requisitos:
+Antes de comeÇõar, verifique se vocÇ¦ atendeu aos seguintes requisitos:
 
-- VocÃª instalou a versÃ£o mais recente da linguagem `<C>`
-- VocÃª instalou a versÃ£o mais recente do `<GCC>`
-- VocÃª tem uma mÃ¡quina `<Windows / Linux / Mac>`.
+- VocÇ¦ instalou a versÇœo mais recente da linguagem `<C>`
+- VocÇ¦ instalou a versÇœo mais recente do `<GCC>`
+- VocÇ¦ tem uma mÇ­quina `<Windows / Linux / Mac>`.
 
-## ğŸš€ Veja o Projeto
+## ĞYs? Veja o Projeto
 
 Siga estas etapas:
 
-- Baixe os arquivos do repositÃ³rio.
+- Baixe os arquivos do repositÇürio.
 - Instale o gcc mais recente para compilar e executar o programa.
-- Abra o CMD na pasta aonde foi baixado o repositÃ³rio e insira os seguintes comandos para compilar e executar o cÃ³digo:
+- Abra o CMD na pasta aonde foi baixado o repositÇürio e insira os seguintes comandos para compilar e executar o cÇüdigo:
 
-CompilaÃ§Ã£o:
+CompilaÇõÇœo:
 
 ``` 
 gcc find.c -o find.exe funcoes.c conio_v3.2.4.c console_v1.5.5.c -Wall -pedantic -Wextra -Werror
 
 ```
 
-ExecuÃ§Ã£o:
+ExecuÇõÇœo:
 
 ```
 find "C:\Program Files"
 ```
 
-## â„¹ï¸ Funcionamento do Programa
+## ƒ"û‹÷? Funcionamento do Programa
 
-O programa na linha de execuÃ§Ã£o aceita 3 argumentos alÃ©m do executÃ¡vel do programa. Caso seja passado menos argumentos o programa nÃ£o rodarÃ¡ imprimindo uma mensagem de erro.
+O programa na linha de execuÇõÇœo aceita 3 argumentos alÇ¸m do executÇ­vel do programa. Caso seja passado menos argumentos o programa nÇœo rodarÇ­ imprimindo uma mensagem de erro.
 
 ```
-[NOME] [DIRETÃ“RIO] [ARQUIVO] [SEQUÃŠNCIA].
+[NOME] [DIRETÇ"RIO] [ARQUIVO] [SEQUÇSNCIA].
 ```
 * NOME: Referente ao nome do programa.
-* DIRETÃ“RIO: Referente ao diretÃ³rio inicial para a varredura.
-* ARQUIVO: Referente ao arquivo a ser buscado dentro do diretÃ³rio passado inicialmente.
-* SEQUÃŠNCIA: Referente a sequÃªncia de caracteres a serem buscados dentro do arquivo informado.
+* DIRETÇ"RIO: Referente ao diretÇürio inicial para a varredura.
+* ARQUIVO: Referente ao arquivo a ser buscado dentro do diretÇürio passado inicialmente.
+* SEQUÇSNCIA: Referente a sequÇ¦ncia de caracteres a serem buscados dentro do arquivo informado.
 
 
-Obs: Caso o diretÃ³rio, arquivo a ser buscado ou a sequÃªncia a ser buscada possuam caracteres espaÃ§os em branco, deve se passar entre "" a pasta, arquivo ou sequÃªncia.
+Obs: Caso o diretÇürio, arquivo a ser buscado ou a sequÇ¦ncia a ser buscada possuam caracteres espaÇõos em branco, deve se passar entre "" a pasta, arquivo ou sequÇ¦ncia.
 
 Exemplo:
 
@@ -59,25 +59,25 @@ find "C:\Program Files" ex.txt "ola mundo!"
 ```
 
 
-## ğŸ¤ Desenvolvedor
+## ĞYÏ? Desenvolvedor
 <table>
     <td align="center">
       <a href="https://github.com/MusgoNato" title="Perfil Github">
         <img src="https://avatars.githubusercontent.com/u/131496781?v=4" width="100px;" alt="Foto do Hugo"/><br>
         <sub>
-          <b>Hugo JosuÃ© Lema Das Neves</b>
+          <b>Hugo JosuÇ¸ Lema Das Neves</b>
         </sub>
       </a>
     </td>
   </tr>
 </table>
 
-## ReferÃªncias ğŸ“š
+## ReferÇ¦ncias ĞY"s
 <table>
     <td align="center">
       <a href="https://www.comp.uems.br/~ricardo/PCII/" title="Link do Projeto">
         <sub>
-          <b>A idÃ©ia e bibliotecas utilizadas no projeto foram pegas da disciplina de ProgramaÃ§Ã£o de Computadores II do Prof Dr Ricardo Luis Lachi</b>
+          <b>A idÇ¸ia e bibliotecas utilizadas no projeto foram pegas da disciplina de ProgramaÇõÇœo de Computadores II do Prof Dr Ricardo Luis Lachi</b>
         </sub>
       </a>
     </td>

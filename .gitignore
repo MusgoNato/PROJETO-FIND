@@ -1,0 +1,6 @@
+*.exe
+*.txt
+*.zip
+/.dist
+/.vscode
+/output

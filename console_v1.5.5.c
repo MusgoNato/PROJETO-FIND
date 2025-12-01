@@ -1,27 +1,27 @@
 /* Esta diretiva foi colocada para que o programa que utilizar esta biblioteca possa ser compilado corretamente.
-     Isso porque a funï¿½ï¿½o GetConsoleWindow precisa disso.
-     A partir deste momento sï¿½ rodarï¿½ para Windows 2000 ou superior pois desabilitarï¿½ todas as outras funï¿½ï¿½es que
-	  sejam especï¿½ficas de versï¿½es anteriores (Ex. win95, win98)
-	 Observaï¿½ï¿½es:
-	 1) ao invï¿½s do cï¿½digo 0x0500 poderia-se usar a macro Windows2000 definida em w32api.h pelo gcc para windows.
+     Isso porque a fun‹¨«‹¨«o GetConsoleWindow precisa disso.
+     A partir deste momento s‹¨« rodar‹¨« para Windows 2000 ou superior pois desabilitar‹¨« todas as outras fun‹¨«‹¨«es que
+	  sejam espec‹¨«ficas de vers‹¨«es anteriores (Ex. win95, win98)
+	 Observa‹¨«‹¨«es:
+	 1) ao inv‹¨«s do c‹¨«digo 0x0500 poderia-se usar a macro Windows2000 definida em w32api.h pelo gcc para windows.
 	     Contudo, essa macro pode estar definida com um nome em outros compiladores (borland, visual studio, etc).
 	     Portanto, para garantir maior compatibilidade, manteve-se a escrita do valor em hexadecimal, mesmo perdendo
 	     na legibilidade final
-	 2) Os cï¿½digos e significado dessa macro podem ser consultados em:
+	 2) Os c‹¨«digos e significado dessa macro podem ser consultados em:
 	      http://msdn.microsoft.com/en-us/library/aa383745.aspx */
 #if (_WIN32_WINNT < 0x0500)
     #undef _WIN32_WINNT
-    #define _WIN32_WINNT 0x0500 /* 0x0500 corresponde a versï¿½o do Windows 2000 */
+    #define _WIN32_WINNT 0x0500 /* 0x0500 corresponde a vers‹¨«o do Windows 2000 */
 #endif
 
 #include <windows.h> /* ExitProcess() */
 #include <stdio.h>  /* printf() e fprintf() */
-#include "console_v1.5.5.h" /* cabeï¿½alho de todas as novas funï¿½ï¿½es definidas neste arquivo */
+#include "console_v1.5.5.h" /* cabe‹¨«alho de todas as novas fun‹¨«‹¨«es definidas neste arquivo */
 
 
-/* C avanï¿½ado */
+/* C avan‹¨«ado */
 /* Usa chamadas a API do windows */
-/* maiores informaï¿½ï¿½es podem ser consultadas no link:
+/* maiores informa‹¨«‹¨«es podem ser consultadas no link:
 http://msdn.microsoft.com/pt-br/library/windows/desktop/ms682073%28v=vs.85%29.aspx */
 
 
@@ -52,7 +52,7 @@ COORD tamanhoJanelaConsole(void)
     return dimJanela;
 }
 
-/* Retorna a resoluï¿½ï¿½o atual do monitor */
+/* Retorna a resolu‹¨«‹¨«o atual do monitor */
 COORD getResolucaoMonitor(void)
 {
 	HWND hDesktop; /* identificador da Desktop Window */
@@ -62,18 +62,18 @@ COORD getResolucaoMonitor(void)
 	/* Armazenar o controlador da janela do Desktop */
 	hDesktop = GetDesktopWindow();
 
-	/* Armazenar as dimensï¿½es do Desktop: left, top, right, bottom. Por exemplo: 0, 0, 1280, 800 */
+	/* Armazenar as dimens‹¨«es do Desktop: left, top, right, bottom. Por exemplo: 0, 0, 1280, 800 */
 	GetWindowRect(hDesktop, &coordenadasDesktopWindow);
 
-	/* Armazenar a resoluï¿½ï¿½o atual do monitor em pixels */
+	/* Armazenar a resolu‹¨«‹¨«o atual do monitor em pixels */
 	resolucaoMonitor.X = coordenadasDesktopWindow.right;
 	resolucaoMonitor.Y = coordenadasDesktopWindow.bottom;
 
 	return resolucaoMonitor;
 }
 
-/* Retorna uma estrutura contendo as dimensï¿½es mï¿½ximas possï¿½veis que a janela de console
-   pode ter, em nï¿½mero de caracteres, na resoluï¿½ï¿½o de tela atual e ser inteiramente visï¿½vel na tela.
+/* Retorna uma estrutura contendo as dimens‹¨«es m‹¨«ximas poss‹¨«veis que a janela de console
+   pode ter, em n‹¨«mero de caracteres, na resolu‹¨«‹¨«o de tela atual e ser inteiramente vis‹¨«vel na tela.
 */
 COORD MaxDimensaoJanela(void)
 {
@@ -85,16 +85,16 @@ COORD MaxDimensaoJanela(void)
 	/* Obter o identificador da janela de console */
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	/* Obter o tamanho mï¿½ximo possï¿½vel para a janela de console.
+	/* Obter o tamanho m‹¨«ximo poss‹¨«vel para a janela de console.
        Equivalente a escrever:
 	   MaxDimensoes.X = GetSystemMetrics(SM_CXFULLSCREEN) / (float) ConsoleCurrentFont.dwFontSize.X;
 	   MaxDimensoes.Y = GetSystemMetrics(SM_CYFULLSCREEN) / (float) ConsoleCurrentFont.dwFontSize.Y;
 	*/
 	MaxDimensoes = GetLargestConsoleWindowSize(hConsole);
 
-	/* Ajustando essa dimensï¿½es para ficarem dentro da ï¿½rea visï¿½vel:
-       - na altura desconsiderar espaï¿½o ocupado pela DesktopTaskBar (getSystemMetrics(SM_CYSIZEFRAME))
-       - na largura desconsidera espaï¿½o ocupado pelas bordas laterais da prï¿½pria janela	 */
+	/* Ajustando essa dimens‹¨«es para ficarem dentro da ‹¨«rea vis‹¨«vel:
+       - na altura desconsiderar espa‹¨«o ocupado pela DesktopTaskBar (getSystemMetrics(SM_CYSIZEFRAME))
+       - na largura desconsidera espa‹¨«o ocupado pelas bordas laterais da pr‹¨«pria janela	 */
 	    /* armazenar o controlador da janela atual */
         hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 		/* obter o tamanho da fonte atual */
@@ -106,14 +106,14 @@ COORD MaxDimensaoJanela(void)
 }
 
 
-/* Recuperar a posiï¿½ï¿½o da janela de console atual na tela */
+/* Recuperar a posi‹¨«‹¨«o da janela de console atual na tela */
 COORD getPosicaoJanela(void)
 {
 
 	COORD canto_superior_esquerdo; /* canto_superior_esquerdo.Y = linha superior da janela ;
                                       canto_superior_esquerdo.X = = coluna mais a esquerda da janela */
-    HWND janela; /* variï¿½vel responsï¿½vel por armazenar o identificador da janela de console */
-    RECT rect; /* estrutura que conterï¿½ as posiï¿½ï¿½es do canto superior esquerdo da janela de console */
+    HWND janela; /* vari‹¨«vel respons‹¨«vel por armazenar o identificador da janela de console */
+    RECT rect; /* estrutura que conter‹¨« as posi‹¨«‹¨«es do canto superior esquerdo da janela de console */
 
     /* Armazenar o controlador da janela atual */
 	janela = GetConsoleWindow();
@@ -128,15 +128,15 @@ COORD getPosicaoJanela(void)
 	return (canto_superior_esquerdo);
 }
 
-/* definir a posiï¿½ï¿½o atual do console na tela */
+/* definir a posi‹¨«‹¨«o atual do console na tela */
 void setPosicaoJanela(int left, int top)
 {
-     HWND janela; /* variï¿½vel responsï¿½vel por armazenar o identificador da janela de console */
+     HWND janela; /* vari‹¨«vel respons‹¨«vel por armazenar o identificador da janela de console */
 
      /* Obter o identificador da janela de console */
 	 janela = GetConsoleWindow();
 
-	 /* Posicionar a janela nas coordenadas passadas como parï¿½metro. Para detalhes da funï¿½ï¿½o SetWindowPos
+	 /* Posicionar a janela nas coordenadas passadas como par‹¨«metro. Para detalhes da fun‹¨«‹¨«o SetWindowPos
                   consultar: http://msdn.microsoft.com/en-us/library/ms633545%28VS.85%29.aspx	 */
 	 SetWindowPos(janela,
 	              HWND_TOP,
@@ -146,7 +146,7 @@ void setPosicaoJanela(int left, int top)
 				  SWP_NOSIZE);
 }
 
-/* definir as dimensï¿½es da janela de console */
+/* definir as dimens‹¨«es da janela de console */
 void setDimensaoJanela(int largura_nova, int altura_nova)
 {
     HANDLE hStdout;
@@ -159,9 +159,9 @@ void setDimensaoJanela(int largura_nova, int altura_nova)
     hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 
 
-	/* ajustar o buffer para a nova dimensï¿½o da janela em nï¿½mero de caracteres.
-	   Isso porque, se o buffer nï¿½o tiver um tamanho igual ou maior, em caracteres,
-	   ï¿½ largura e ï¿½ altura da janela do prompt de comando, o Windows impede o redimensionamento
+	/* ajustar o buffer para a nova dimens‹¨«o da janela em n‹¨«mero de caracteres.
+	   Isso porque, se o buffer n‹¨«o tiver um tamanho igual ou maior, em caracteres,
+	   ‹¨« largura e ‹¨« altura da janela do prompt de comando, o Windows impede o redimensionamento
 	   da janela */
 
         /*---------------------------------*/
@@ -187,7 +187,7 @@ void setDimensaoJanela(int largura_nova, int altura_nova)
                if ( ! SetConsoleWindowInfo(hStdout, TRUE, &srWindow))
                    printf("Erro: SetConsoleWindowInfo(%ld) \n", GetLastError());
 		}
-		else if (altura_nova < altura_atual) /* especifiquei o if para nï¿½o ter que executar nada quando for o caso altura_nova == altura_atual */
+		else if (altura_nova < altura_atual) /* especifiquei o if para n‹¨«o ter que executar nada quando for o caso altura_nova == altura_atual */
 		{
 		    /* primeiro redimensionar a janela para depois redimensionar o buffer */
                if ( ! SetConsoleWindowInfo(hStdout, TRUE, &srWindow))
@@ -218,7 +218,7 @@ void setDimensaoJanela(int largura_nova, int altura_nova)
                if ( ! SetConsoleWindowInfo(hStdout, TRUE, &srWindow))
                    printf("Erro: SetConsoleWindowInfo(%ld) \n", GetLastError());
 		}
-		else if (largura_nova < largura_atual) /* especifiquei o if para nï¿½o ter que executar nada quando for o caso largura_nova == largura_atual */
+		else if (largura_nova < largura_atual) /* especifiquei o if para n‹¨«o ter que executar nada quando for o caso largura_nova == largura_atual */
 		{
 		    /* primeiro redimensionar a janela para depois redimensionar o buffer */
                if ( ! SetConsoleWindowInfo(hStdout, TRUE, &srWindow))
@@ -230,7 +230,7 @@ void setDimensaoJanela(int largura_nova, int altura_nova)
 
 }
 
-/* Definir se ï¿½ para tornar visivel ou invisivel a barra de tarefas (task bar) */
+/* Definir se ‹¨« para tornar visivel ou invisivel a barra de tarefas (task bar) */
 void setEstadoBarraTarefas(VISIBILIDADE estado)
 {
      HWND hwnd;
@@ -238,7 +238,7 @@ void setEstadoBarraTarefas(VISIBILIDADE estado)
 	 /* Armazenar um controlador para a barra de tarefas, com base no seu nome */
 	 hwnd = FindWindow("Shell_TrayWnd", "");
 
-	 /* Definir o estado de visibilidade da barra de tarefas conforme o valor passado como parï¿½metro */
+	 /* Definir o estado de visibilidade da barra de tarefas conforme o valor passado como par‹¨«metro */
 	 ShowWindow(hwnd, estado);
 }
 
@@ -249,13 +249,13 @@ void setEstadoBarraTarefas(VISIBILIDADE estado)
 COORD getTamanhoFonteConsole(void)
 {
     HANDLE hStdout; /* controlador da janela de console */
-	CONSOLE_FONT_INFO ConsoleCurrentFont; /* estrutura que armazenarï¿½ as dimensï¿½es da fonte atual */
+	CONSOLE_FONT_INFO ConsoleCurrentFont; /* estrutura que armazenar‹¨« as dimens‹¨«es da fonte atual */
 
     /* armazenar o controlador da janela atual */
     hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    /* obter as dimensoes da fonte atual para o tamanho de janela atual (parï¿½metro FALSE).
-       Se retornar FALSE entï¿½o a funï¿½ï¿½o falhou.	*/
+    /* obter as dimensoes da fonte atual para o tamanho de janela atual (par‹¨«metro FALSE).
+       Se retornar FALSE ent‹¨«o a fun‹¨«‹¨«o falhou.	*/
 	if (!GetCurrentConsoleFont(hStdout, FALSE, &ConsoleCurrentFont))
          ErrorExit("getTamanhoFonteConsole");
 
@@ -263,50 +263,50 @@ COORD getTamanhoFonteConsole(void)
 }
 
 
-/* Retornar o tï¿½tulo da janela de console */
+/* Retornar o t‹¨«tulo da janela de console */
 char *getTituloConsole(void)
 {
-     HWND janela;    /* variï¿½vel que armazenarï¿½ o identificador da janela de console */
-	 LPTSTR titulo;  /* variï¿½vel que armazenarï¿½ o tï¿½tulo da janela de console */
+     HWND janela;    /* vari‹¨«vel que armazenar‹¨« o identificador da janela de console */
+	 LPTSTR titulo;  /* vari‹¨«vel que armazenar‹¨« o t‹¨«tulo da janela de console */
 	 int numero_caracteres_titulo;
 
 	 /* Obter o identificador da janela de console */
 	 janela = GetConsoleWindow();
 
-	 /* Obter quantos caracteres tem o tï¿½tulo da janela */
+	 /* Obter quantos caracteres tem o t‹¨«tulo da janela */
 	 numero_caracteres_titulo = GetWindowTextLength(janela);
 
-	 /* Alocar espaï¿½o para o texto do tï¿½tulo mais o '\0'*/
+	 /* Alocar espa‹¨«o para o texto do t‹¨«tulo mais o '\0'*/
 	 titulo = (LPTSTR) malloc(numero_caracteres_titulo + 1);
 
-	 /* Obter o tï¿½tulo da janela atual */
+	 /* Obter o t‹¨«tulo da janela atual */
      GetWindowText(janela, titulo, numero_caracteres_titulo + 1);
 
 	 return titulo;
 }
 
-/* Definir o tï¿½tulo da janela de console */
+/* Definir o t‹¨«tulo da janela de console */
 void setTituloConsole(char *titulo)
 {
-    HWND janela;    /* variï¿½vel que armazenarï¿½ o identificador da janela de console */
+    HWND janela;    /* vari‹¨«vel que armazenar‹¨« o identificador da janela de console */
 
     /* Obter o identificador da janela de console */
 	janela = GetConsoleWindow();
 
-	/* Definir o titulo da janela como sendo a string passada como parï¿½metro */
+	/* Definir o titulo da janela como sendo a string passada como par‹¨«metro */
 	SetWindowText(janela, titulo);
 }
 
-/* Definir se ï¿½ para ligar ou desligar o cursor piscante na tela */
+/* Definir se ‹¨« para ligar ou desligar o cursor piscante na tela */
 void setCursorStatus(STATUS s)
 {
     CONSOLE_CURSOR_INFO info;
     HANDLE hOutput = GetStdHandle (STD_OUTPUT_HANDLE);
     char buf[255];
     DWORD dwError;
-    static DWORD dwSizeCursor; /* variï¿½vel que armazenarï¿½ o tamanho atual do cursor para quando for ligï¿½-lo */
+    static DWORD dwSizeCursor; /* vari‹¨«vel que armazenar‹¨« o tamanho atual do cursor para quando for lig‹¨«-lo */
 
-    /* armazenar as informaï¿½ï¿½es sobre o cursor atualmente */
+    /* armazenar as informa‹¨«‹¨«es sobre o cursor atualmente */
     GetConsoleCursorInfo(hOutput, &info);
     switch (s)
     {
@@ -329,7 +329,7 @@ void setCursorStatus(STATUS s)
        }
 }
 
-/* Esta funï¿½ï¿½o retorna as cores, do texto e de fundo, definidas para a janela de prompt atual */
+/* Esta fun‹¨«‹¨«o retorna as cores, do texto e de fundo, definidas para a janela de prompt atual */
 CORES getCoresJanela(void)
 {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -339,7 +339,7 @@ CORES getCoresJanela(void)
     /* armazenar o controlador da janela atual */
     hOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    /* armazenar as informaï¿½ï¿½es sobre o cursor atualmente */
+    /* armazenar as informa‹¨«‹¨«es sobre o cursor atualmente */
     GetConsoleScreenBufferInfo(hOutput, &csbi);
 	cores.CorTexto = (csbi.wAttributes & 0x0F);
 	cores.CorFundo = (csbi.wAttributes & 0xF0) >> 4;
@@ -357,27 +357,27 @@ int hit(TYPE_HIT tipoEvento)
    int existeEvento = 0;
    unsigned int i;
 
-    /* Armazenar o controlador padrï¿½o de entrada ( standard input handle ) */
+    /* Armazenar o controlador padr‹¨«o de entrada ( standard input handle ) */
     hStdin = GetStdHandle(STD_INPUT_HANDLE);
     if (hStdin == INVALID_HANDLE_VALUE)
         ErrorExit("GetStdHandle");
 
-    /* Habilitar a entrada de eventos na janela de console e tambï¿½m de eventos do mouse */
+    /* Habilitar a entrada de eventos na janela de console e tamb‹¨«m de eventos do mouse */
     fdwMode = ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT;
     if (! SetConsoleMode(hStdin, fdwMode) )
         ErrorExit("SetConsoleMode");
 
-   /* Armazenar em nEventos o nï¿½mero de eventos nï¿½o lidos no buffer */
+   /* Armazenar em nEventos o n‹¨«mero de eventos n‹¨«o lidos no buffer */
    GetNumberOfConsoleInputEvents(hStdin, &nEventos);
 
    if(nEventos > 0) /* se houver algum evento aguardando ser lido no buffer */
    {
-      /* Alocar memï¿½ria para o nï¿½mero de eventos existentes no buffer */
+      /* Alocar mem‹¨«ria para o n‹¨«mero de eventos existentes no buffer */
       eventos = (INPUT_RECORD *)malloc(nEventos * sizeof(INPUT_RECORD));
-	  /* Ler todos os eventos do buffer sem removï¿½-los do buffer */
+	  /* Ler todos os eventos do buffer sem remov‹¨«-los do buffer */
       PeekConsoleInput(GetStdHandle(STD_INPUT_HANDLE), eventos, nEventos, &leidos);
-	  /* Varrer todos os eventos existentes no buffer para identificar se hï¿½ algum daqueles que foi
-	     pedido para ser identificado por meio do parï¿½metro tipoEvento */
+	  /* Varrer todos os eventos existentes no buffer para identificar se h‹¨« algum daqueles que foi
+	     pedido para ser identificado por meio do par‹¨«metro tipoEvento */
 	  for(i = 0;  i < nEventos; i++)
 	  {
 	      if( ( eventos[i].EventType == KEY_EVENT && (tipoEvento == KEYBOARD_HIT || tipoEvento == ALL) )
@@ -388,7 +388,7 @@ int hit(TYPE_HIT tipoEvento)
 			)
 			 existeEvento = 1;
 	  }
-	  free( eventos ); /* liberar a memï¿½ria alocada para os eventos */
+	  free( eventos ); /* liberar a mem‹¨«ria alocada para os eventos */
    }
    return existeEvento;
 }
@@ -396,7 +396,7 @@ int hit(TYPE_HIT tipoEvento)
 
 /*
 */
-/* Funï¿½ï¿½o que aguarda e retorna um evento originado, ou do teclado, ou do mouse */
+/* Fun‹¨«‹¨«o que aguarda e retorna um evento originado, ou do teclado, ou do mouse */
 EVENTO Evento(void)
 {
     HANDLE hStdin;
@@ -406,13 +406,13 @@ EVENTO Evento(void)
 	BYTE lpKeyState[256];
 	static DWORD status_anterior_botoes = 0;
 
-    /* Armazenar o controlador padrï¿½o de entrada ( standard input handle) */
+    /* Armazenar o controlador padr‹¨«o de entrada ( standard input handle) */
     hStdin = GetStdHandle(STD_INPUT_HANDLE);
     if (hStdin == INVALID_HANDLE_VALUE)
         ErrorExit("GetStdHandle");
 
 
-    /* Habilitar a entrada de eventos na janela de console e tambï¿½m de eventos do mouse */
+    /* Habilitar a entrada de eventos na janela de console e tamb‹¨«m de eventos do mouse */
     fdwMode = ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT;
     if (! SetConsoleMode(hStdin, fdwMode) )
         ErrorExit("SetConsoleMode");
@@ -420,7 +420,7 @@ EVENTO Evento(void)
 
 	/* Esperar pelos eventos */
 	if (! ReadConsoleInput(	hStdin,      /* input buffer handle */
-							&irInBuf,    /* Buffer onde os eventos lidos serï¿½o armazenados */
+							&irInBuf,    /* Buffer onde os eventos lidos ser‹¨«o armazenados */
 							1,           /* tamanho do buffer de leitura, no caso, irInBuf */
 							&cNumRead) )
 		ErrorExit("ReadConsoleInput");
@@ -431,7 +431,7 @@ EVENTO Evento(void)
 	{
 		   case KEY_EVENT: /* keyboard input  */
 			    Dados_evento.tipo_evento = KEY_EVENT;
-				Dados_evento.teclado.key_code = irInBuf.Event.KeyEvent.wVirtualKeyCode; /* armazenar o cï¿½digo da tecla
+				Dados_evento.teclado.key_code = irInBuf.Event.KeyEvent.wVirtualKeyCode; /* armazenar o c‹¨«digo da tecla
 				pressionada */
 				Dados_evento.teclado.scan_code = irInBuf.Event.KeyEvent.wVirtualScanCode;
 				
@@ -446,29 +446,29 @@ EVENTO Evento(void)
                 Dados_evento.teclado.status_teclas_controle = irInBuf.Event.KeyEvent.dwControlKeyState;
 
                 /* se foi pressionada a tecla SHIFT guardar se foi pressionado o SHIFT ESQUERDO ou SHIFT DIREITO. Ver: http://msdn.microsoft.com/pt-br/library/windows/desktop/ms646301%28v=vs.85%29.aspx */
-                if((GetKeyState(VK_LSHIFT) & BIT_SHORT_MAIS_SIGNIFICATIVO) == TECLA_PRESSIONADA)  /* se o bit mais significativo de um nï¿½mero de tamanho short (2 bytes) tiver o valor 1 entï¿½o ï¿½ porque a tecla estï¿½ pressionada */
+                if((GetKeyState(VK_LSHIFT) & BIT_SHORT_MAIS_SIGNIFICATIVO) == TECLA_PRESSIONADA)  /* se o bit mais significativo de um n‹¨«mero de tamanho short (2 bytes) tiver o valor 1 ent‹¨«o ‹¨« porque a tecla est‹¨« pressionada */
 				   Dados_evento.teclado.status_teclas_controle |= SHIFT_ESQUERDO_PRESSIONADO;
-                if((GetKeyState(VK_RSHIFT) & BIT_SHORT_MAIS_SIGNIFICATIVO) == TECLA_PRESSIONADA)  /* se o bit mais significativo de um nï¿½mero de tamanho short (2 bytes) tiver o valor 1 entï¿½o ï¿½ porque a tecla estï¿½ pressionada */
+                if((GetKeyState(VK_RSHIFT) & BIT_SHORT_MAIS_SIGNIFICATIVO) == TECLA_PRESSIONADA)  /* se o bit mais significativo de um n‹¨«mero de tamanho short (2 bytes) tiver o valor 1 ent‹¨«o ‹¨« porque a tecla est‹¨« pressionada */
 				   Dados_evento.teclado.status_teclas_controle |= SHIFT_DIREITO_PRESSIONADO;
 			    break;
 
 		   case MOUSE_EVENT: /* mouse input */
 			    Dados_evento.tipo_evento = MOUSE_EVENT; /* armazenar que foi gerado um evento do mouse */
-			    Dados_evento.mouse.posicao = irInBuf.Event.MouseEvent.dwMousePosition; /* armazenar a posiï¿½ï¿½o na tela em que o usuï¿½rio clicou */
-			    Dados_evento.mouse.botao_pressionado = irInBuf.Event.MouseEvent.dwButtonState; /* armazenar o botï¿½o pressionado */
+			    Dados_evento.mouse.posicao = irInBuf.Event.MouseEvent.dwMousePosition; /* armazenar a posi‹¨«‹¨«o na tela em que o usu‹¨«rio clicou */
+			    Dados_evento.mouse.botao_pressionado = irInBuf.Event.MouseEvent.dwButtonState; /* armazenar o bot‹¨«o pressionado */
 
                 Dados_evento.mouse.status_teclas_controle = irInBuf.Event.MouseEvent.dwControlKeyState;
                 /* se foi pressionada a tecla SHIFT guardar se foi pressionado o SHIFT ESQUERDO ou SHIFT DIREITO. Ver: http://msdn.microsoft.com/pt-br/library/windows/desktop/ms646301%28v=vs.85%29.aspx */
-                if((GetKeyState(VK_LSHIFT) & BIT_SHORT_MAIS_SIGNIFICATIVO) == TECLA_PRESSIONADA)  /* se o bit mais significativo de um nï¿½mero de tamanho short (2 bytes) tiver o valor 1 entï¿½o ï¿½ porque a tecla estï¿½ pressionada */
+                if((GetKeyState(VK_LSHIFT) & BIT_SHORT_MAIS_SIGNIFICATIVO) == TECLA_PRESSIONADA)  /* se o bit mais significativo de um n‹¨«mero de tamanho short (2 bytes) tiver o valor 1 ent‹¨«o ‹¨« porque a tecla est‹¨« pressionada */
 				   Dados_evento.teclado.status_teclas_controle |= SHIFT_ESQUERDO_PRESSIONADO;
-                if((GetKeyState(VK_RSHIFT) & BIT_SHORT_MAIS_SIGNIFICATIVO) == TECLA_PRESSIONADA)  /* se o bit mais significativo de um nï¿½mero de tamanho short (2 bytes) tiver o valor 1 entï¿½o ï¿½ porque a tecla estï¿½ pressionada */
+                if((GetKeyState(VK_RSHIFT) & BIT_SHORT_MAIS_SIGNIFICATIVO) == TECLA_PRESSIONADA)  /* se o bit mais significativo de um n‹¨«mero de tamanho short (2 bytes) tiver o valor 1 ent‹¨«o ‹¨« porque a tecla est‹¨« pressionada */
 				   Dados_evento.teclado.status_teclas_controle |= SHIFT_DIREITO_PRESSIONADO;
 
 				   Dados_evento.mouse.flags_qual_evento_mouse = irInBuf.Event.MouseEvent.dwEventFlags;
 
-				/* Identificar se foi liberado um botï¿½o que tenha sido pressionado anteriormente, ou seja,
-                   foi dado um clique com aquele botï¿½o. Somente foi escrito cï¿½digo para reconhecer o clique de
-				   3 botï¿½es de um mouse. Mouses que tenham mais botï¿½es, os demais botï¿½es nï¿½o serï¿½o reconhecidos */
+				/* Identificar se foi liberado um bot‹¨«o que tenha sido pressionado anteriormente, ou seja,
+                   foi dado um clique com aquele bot‹¨«o. Somente foi escrito c‹¨«digo para reconhecer o clique de
+				   3 bot‹¨«es de um mouse. Mouses que tenham mais bot‹¨«es, os demais bot‹¨«es n‹¨«o ser‹¨«o reconhecidos */
 				Dados_evento.mouse.botao_clicou = 0;
 				if ((status_anterior_botoes & FROM_LEFT_1ST_BUTTON_PRESSED) == 1 && (Dados_evento.mouse.botao_pressionado & FROM_LEFT_1ST_BUTTON_PRESSED) == 0)
 				     Dados_evento.mouse.botao_clicou +=  FROM_LEFT_1ST_BUTTON_RELEASED;
@@ -497,13 +497,13 @@ EVENTO Evento(void)
 }
 
 
-/* funï¿½ï¿½o que coleta e apresenta todas as informaï¿½ï¿½es passï¿½veis de serem coletadas sobre um
+/* fun‹¨«‹¨«o que coleta e apresenta todas as informa‹¨«‹¨«es pass‹¨«veis de serem coletadas sobre um
    evento e, seja ele um evento do teclado, ou do mouse.
-   Hï¿½ duas possibilidades do nï¿½vel de detalhamento das informaï¿½ï¿½es que a funï¿½ï¿½o pode apresentar:
+   H‹¨« duas possibilidades do n‹¨«vel de detalhamento das informa‹¨«‹¨«es que a fun‹¨«‹¨«o pode apresentar:
    MINIMO e MAXIMO (constantes definidas como #define)  */
 void IdentificarEvento(EVENTO e, int nivel_detalhe)
 {
-     switch(e.tipo_evento) /* identificar o tipo do evento recebido como parï¿½metro */
+     switch(e.tipo_evento) /* identificar o tipo do evento recebido como par‹¨«metro */
 	 {
 	        case MOUSE_EVENT:
 			     printf("\nEvento do mouse");
@@ -544,10 +544,10 @@ void IdentificarEvento(EVENTO e, int nivel_detalhe)
 				     printf("\n   - Scroll do mouse foi movimentado: %s", (e.mouse.flags_qual_evento_mouse & MOUSE_WHEELED)?("sim"):("nao"));
 					 if (e.mouse.flags_qual_evento_mouse & MOUSE_WHEELED) /* se foi movimentado o cursor por meio da scroll do mouse */
 					 {
-					     /* identificar se foi um scroll para frente ou para trï¿½s */
-						 if ((int) e.mouse.botao_pressionado > 0) /* se a high word for positiva entï¿½o ï¿½ para frente */
+					     /* identificar se foi um scroll para frente ou para tr‹¨«s */
+						 if ((int) e.mouse.botao_pressionado > 0) /* se a high word for positiva ent‹¨«o ‹¨« para frente */
 						     printf("\n     * Scroll para frente");
-						 else /* caso contrï¿½rio, foi feito um scroll para trï¿½s (em direï¿½ï¿½o ao usuï¿½rio) */
+						 else /* caso contr‹¨«rio, foi feito um scroll para tr‹¨«s (em dire‹¨«‹¨«o ao usu‹¨«rio) */
     						 printf("\n     * Scroll para tras");
 					 }
                  }

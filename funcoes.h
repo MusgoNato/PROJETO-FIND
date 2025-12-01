@@ -1,33 +1,19 @@
 /*Bibliotecas*/
 # include <dirent.h> /*DIR*/
+# include <stdio.h> /*FILE*/
 # include "console_v1.5.5.h" /*COORD*/
 
 /*Definicoes de constantes*/
-# define MAX_ARGUMENTOS 5
-# define MIN_ARGUMENTOS MAX_ARGUMENTOS - 1
-# define PASTA_INICIAL_VARREDURA 1
-# define NOME_ARQUIVO_BUSCA 2
-# define NOME_SEQUENCIA 3
-# define TAM_LINHA 1024 
+# define NOME_PROGRAMA 1
+# define COMANDO1 2
+# define COMANDO2 3
 
 /*Registros*/
-
-/*Estrutura para armazenamento dos principais arquivos do programa*/
-typedef struct _entrada_cmd
-{   
-    char *nome_caminho;
-    char *nome_arquivo;
-    DIR *p_fluxo_da_pasta;
-}DADO_ENTRADA;
-
 
 /*Para variaveis gerais durante o decorrer do programa*/
 typedef struct _cont
 {
-    int conta_pastas;
-    int conta_arquivos;
-    int controle_sequencia;
-    COORD linha_de_impressao;
+    FILE *arquivo_saida;
 }GERAIS;
 
 /*Funcao responsavel por comecar a busca recursiva
@@ -46,7 +32,7 @@ Parametros:
 Retorno:
 Nenhum
 */
-void Busque_diretorios(char  *, char *, GERAIS *, char *);
+void Busque_diretorios(char  *, GERAIS *, int);
 
 /*Funcao responsavel por remover o asterisco ao final de cada caminho percorrido pela funcao recursiva
 
@@ -63,7 +49,7 @@ char * : Caminho modificado, retirando o "*" ao final do caminho original
 */
 char * Remove_asterisco(char *);
 
-/*Funcao responsavel por varrer o arquivo aberto
+/*Funcao responsavel por varrer o arquivo aberto e fazer a conversao de (windows-1252) para (OEM 850)
 
 Explicacao:
 Caso algum arquivo seja encontrado, eh necessario varrer o arquivo por inteiro, tentando encontrar a sequencia desejada dentro do arquivo encontrado.
@@ -78,7 +64,7 @@ Parametros:
 Retorno:
 Nenhum
 */
-void Varre_arquivo(char *, char *, GERAIS *);
+void Varre_arquivo(char *, char *, char *);
 
 /*Funcao responsavel pela verificacao da entrada via linha de comando
 
@@ -92,4 +78,4 @@ Parametros:
 Retorno:
 int : Caso a quantidade passada seja dentro do intervalo possivel retorna 1 ao programa, caso contrario 0. 
 */
-int Verifica_entrada(int);
+int Verifica_entrada(int, char **);
